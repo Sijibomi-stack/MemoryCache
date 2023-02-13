@@ -2,8 +2,8 @@ package main
 
 import (
 	"time"
-	"workspace/routes"
 
+	"github.com/Sijibomi-stack/embarkStudios/blob/main/cmd/api/routes.go"
 	"github.com/gofiber/fiber/v2"
 )
 
