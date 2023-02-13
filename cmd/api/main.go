@@ -3,15 +3,14 @@ package main
 import (
 	"time"
 
-	"github.com/Sijibomi-stack/embarkStudios/blob/main/cmd/api/routes.go"
 	"github.com/gofiber/fiber/v2"
 )
 
 func setupRoutes(app *fiber.App) {
 
-	app.Get("/id", routes.checkCache, routes.getCache)
+	app.Get("/id", checkCache, getCache)
 
-	app.Post("/post", routes.PostInCache)
+	app.Post("/post", PostInCache)
 
 }
 
@@ -20,7 +19,7 @@ func main() {
 
 	memoryCache.SetTTL(time.Duration(30 * time.Minute))
 
-	routes(app)
+	memRoutes(app)
 
 	app.Listen(":7000")
 }
