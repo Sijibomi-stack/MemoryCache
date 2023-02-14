@@ -12,7 +12,7 @@ var memoryCache ttlcache.SimpleCache = ttlcache.NewCache()
 
 func setupRoutes(app *fiber.App) {
 
-	app.Get("/:id", memoryRoutes.checkCache, memoryRoutes.getCache)
+	app.Get("/:id", memoryRoutes.CheckCache, memoryRoutes.GetCache)
 
 	app.Post("/post", memoryRoutes.PostInCache)
 
