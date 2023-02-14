@@ -5,11 +5,14 @@ import (
 
 	"github.com/Sijibomi-stack/memoryRoutes"
 	"github.com/gofiber/fiber/v2"
+	"github.com/jellydator/ttlcache/v2"
 )
+
+var memoryCache ttlcache.SimpleCache = ttlcache.NewCache()
 
 func setupRoutes(app *fiber.App) {
 
-	app.Get("/id", memoryRoutes.checkCache, memoryRoutes.getCache)
+	app.Get("/:id", memoryRoutes.checkCache, memoryRoutes.getCache)
 
 	app.Post("/post", memoryRoutes.PostInCache)
 
@@ -20,7 +23,7 @@ func main() {
 
 	memoryCache.SetTTL(time.Duration(30 * time.Minute))
 
-	memoryRoutes(app)
+	setupRoutes(app)
 
 	app.Listen(":7000")
 }
