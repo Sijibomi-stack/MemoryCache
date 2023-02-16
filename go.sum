@@ -22,6 +22,8 @@ github.com/Sijibomi-stack/memoryRoutes v0.0.0-20230216025303-ff2a60982dab h1:Nwn
 github.com/Sijibomi-stack/memoryRoutes v0.0.0-20230216025303-ff2a60982dab/go.mod h1:rjUGoyo524z2MYrZXH4FKVgN4HVCpBUNgetu5Jra9Sw=
 github.com/Sijibomi-stack/memoryRoutes v0.0.0-20230216035211-030dc7887abc h1:7hXwPI+yBVeFsq5TPFfIrHHTz/IdOygCrXQe7keyt38=
 github.com/Sijibomi-stack/memoryRoutes v0.0.0-20230216035211-030dc7887abc/go.mod h1:rjUGoyo524z2MYrZXH4FKVgN4HVCpBUNgetu5Jra9Sw=
+github.com/Sijibomi-stack/memoryRoutes v0.1.0 h1:oEKEAV2fFtvoGE+hSLwkZdjEojhjhLdwU1a81U2hOwc=
+github.com/Sijibomi-stack/memoryRoutes v0.1.0/go.mod h1:rjUGoyo524z2MYrZXH4FKVgN4HVCpBUNgetu5Jra9Sw=
 github.com/andybalholm/brotli v1.0.4 h1:V7DdXeJtZscaqfNuAdSRuRFzuiKlHSC/Zh3zl9qY3JY=
 github.com/andybalholm/brotli v1.0.4/go.mod h1:fO7iG3H7G2nSZ7m0zPUDn85XEX2GTukHGRSepvi9Eig=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

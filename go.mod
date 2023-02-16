@@ -3,7 +3,7 @@ module github.com/Sijibomi-stack/embarkStudios
 go 1.19
 
 require (
-	github.com/Sijibomi-stack/memoryRoutes v0.0.0-20230216035211-030dc7887abc
+	github.com/Sijibomi-stack/memoryRoutes v0.1.0
 	github.com/gofiber/fiber/v2 v2.42.0
 )
 
