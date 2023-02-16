@@ -18,7 +18,7 @@ spec:
     }
 
     tools {
-        go 'go1.18'
+        go 'go1.14'
     }
     environment {
         GO114MODULE = 'on'
