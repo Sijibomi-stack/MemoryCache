@@ -24,7 +24,7 @@ spec:
         GO114MODULE = 'on'
         CGO_ENABLED = 0
         GOPATH = "${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}"
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+        DOCKERHUB_CREDENTIALS = credentials('Jenkins-docker')
     }
     stages {
             stage("Checkout the project") {
