@@ -34,7 +34,7 @@ spec:
         }
         stage("build") {
             steps {
-                echo 'BUILD EXECUTION STARTED-Chcekout for test-123'
+                echo 'BUILD EXECUTION STARTED-Chcekout for test-123 with execution for pull request'
                 sh 'go version'
                 sh 'go get ./...'
                 sh 'docker build . -t Sijibomi-stack/embarkStudios'
