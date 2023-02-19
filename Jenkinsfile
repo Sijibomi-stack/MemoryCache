@@ -7,7 +7,7 @@ apiVersion: v1
 kind: Pod
 spec:
   containers:
-  - name: memoryCacheApp
+  - name: memorycacheapp
     image: alpine
     command:
     - sleep
@@ -18,7 +18,7 @@ spec:
     }
 
     tools {
-        go 'Go 1.18'
+        go 'Go 1.20'
     }
     environment {
         GO114MODULE = 'on'
@@ -29,12 +29,12 @@ spec:
     stages {
             stage("Checkout the project") {
            steps{
-               git branch: 'main', url: 'https://github.com/Sijibomi-stack/embarkStudios.git'
+               git branch: 'main', credentialsId: 'Jenkins-github', url: 'https://github.com/Sijibomi-stack/embarkStudios.git'
            }
         }
         stage("build") {
             steps {
-                echo 'BUILD EXECUTION STARTED1'
+                echo 'BUILD EXECUTION STARTED-Chcekout for test'
                 sh 'go version'
                 sh 'go get ./...'
                 sh 'docker build . -t Sijibomi-stack/embarkStudios'
