@@ -18,18 +18,18 @@ spec:
     }
 
     tools {
-        go 'Go 1.18'
+        go 'go1.20'
     }
     environment {
         GO114MODULE = 'on'
         CGO_ENABLED = 0
         GOPATH = "${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}"
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+        DOCKERHUB_CREDENTIALS = credentials('Jenkins-docker')
     }
     stages {
             stage("Checkout the project") {
            steps{
-               git branch: 'main', url: 'https://github.com/Sijibomi-stack/embarkStudios.git'
+               git branch: 'main', credentialsId: 'Jenkins-github', url: 'https://github.com/Sijibomi-stack/embarkStudios.git'
            }
         }
         stage("build") {
