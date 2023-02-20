@@ -7,7 +7,7 @@ apiVersion: v1
 kind: Pod
 spec:
   containers:
-  - name: memoryCacheApp
+  - name: memorycacheapp
     image: alpine
     command:
     - sleep
