@@ -16,8 +16,8 @@ spec:
       requests:
         memory: 3Gi
         cpu: "2"
-          limits:
-          memory: 5Gi
+      limits:
+        memory: 5Gi
     imagePullPolicy: Always
   - name: docker
     image: docker:latest
@@ -37,7 +37,9 @@ spec:
     stages {
             stage("Checkout the project") {
            steps{
+	     container('golang'){
                git branch: 'main', credentialsId: 'Jenkins-github', url: 'https://github.com/Sijibomi-stack/embarkStudios.git'
+	       sh 'go version'
            }
         
 	}
