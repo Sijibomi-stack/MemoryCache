@@ -7,24 +7,32 @@ apiVersion: v1
 kind: Pod
 spec:
   containers:
-  - name: memorycacheapp
-    image: alpine
+  - name: golang
+    image: golang:1.20
     command:
-    - sleep
-    args:
-    - infinity
+    - cat
+    tty: true
+    resources:
+      requests:
+        memory: 3Gi
+        cpu: "2"
+          limits:
+          memory: 5Gi
+    imagePullPolicy: Always
+  - name: docker
+    image: docker:latest
+    command:
+    - cat
+    tty: true
+    volumeMounts:
+      - mountPath: /var/run/docker.sock
+        name: docker-sock
+  volumes:
+  - name: docker-sock
+    hostPath:
+      path: /var/run/docker.sock
 '''
         }
-    }
-
-    tools {
-        go 'go1.20'
-    }
-    environment {
-        GO114MODULE = 'on'
-        CGO_ENABLED = 0
-        GOPATH = "${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}"
-        DOCKERHUB_CREDENTIALS = credentials('Jenkins-docker')
     }
     stages {
             stage("Checkout the project") {
@@ -35,9 +43,9 @@ spec:
 	}
         stage("build") {
             steps { 
-                echo 'BUILD EXECUTION STARTED'
-                sh 'go version'
+	      container('docker'){
                 sh 'docker build . -t Sijibomi-stack/embarkStudios'
+		}
 		
             }
         }
