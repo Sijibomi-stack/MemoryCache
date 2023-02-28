@@ -36,7 +36,6 @@ spec:
             steps {
                 echo 'BUILD EXECUTION STARTED1'
                 sh 'go version'
-                sh 'go get ./...'
                 sh 'docker build . -t Sijibomi-stack/embarkStudios'
             }
         }
