@@ -40,6 +40,7 @@ spec:
 	     container('golang'){
                git branch: 'main', credentialsId: 'Jenkins-github', url: 'https://github.com/Sijibomi-stack/embarkStudios.git'
 	       sh 'go version'
+	       }
            }
         
 	}
