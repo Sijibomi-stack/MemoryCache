@@ -34,12 +34,10 @@ spec:
         }
         stage("build") {
             steps { 
-	        script {
-	      
                 echo 'BUILD EXECUTION STARTED'
                 sh 'go version'
                 sh 'docker build . -t Sijibomi-stack/embarkStudios'
-		}
+		
             }
         }
         stage('Login') {
