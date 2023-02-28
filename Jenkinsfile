@@ -32,10 +32,12 @@ spec:
                git branch: 'main', credentialsId: 'Jenkins-github', url: 'https://github.com/Sijibomi-stack/embarkStudios.git'
            }
         }
-        stage("build") {
+        stage("Initilaize and build") {
             steps { 
                 echo 'BUILD EXECUTION STARTED'
                 sh 'go version'
+		def dockerHome = tool 'docker'
+		env.PATH = "${dockerHome}/bin:$(env.PATH}"
                 sh 'docker build . -t Sijibomi-stack/embarkStudios'
 		
             }
