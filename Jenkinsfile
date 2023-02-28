@@ -37,7 +37,7 @@ spec:
                 echo 'BUILD EXECUTION STARTED'
                 sh 'go version'
 		def dockerHome = tool 'docker'
-		env.PATH = "${dockerHome}/bin:$(env.PATH}"
+		env.PATH = "${dockerHome}/bin:${env.PATH}"
                 sh 'docker build . -t Sijibomi-stack/embarkStudios'
 		
             }
