@@ -11,6 +11,13 @@ podTemplate(yaml: '''
         - sleep
         args:
         - 99d
+	resources:
+        requests:
+          memory: 3Gi
+          cpu: "2"
+        limits:
+          memory: 5Gi
+      imagePullPolicy: Always
       - name: kaniko
         image: gcr.io/kaniko-project/executor:debug
         command:
