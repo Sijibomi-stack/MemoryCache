@@ -50,7 +50,7 @@ pipeline {
      stage('Build Java Image') {
 	   steps {
          container('kaniko') {
-            /kaniko/executor --context $WORKSPACE --destination $IMAGE_NAME:$IMAGE_TAG"
+           sh "/kaniko/executor --context $WORKSPACE --destination $IMAGE_NAME:$IMAGE_TAG"
         }
       }
     }
