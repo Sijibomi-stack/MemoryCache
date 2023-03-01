@@ -3,6 +3,11 @@ podTemplate(yaml: '''
     kind: Pod
     spec:
       containers:
+	  - name: git
+        image: bitnami/git:latest
+        command:
+        - cat
+        tty: true
       - name: golang
         image: golang:1.20
         command:
@@ -43,7 +48,7 @@ podTemplate(yaml: '''
       container('kaniko') {
         stage('Build a Go project') {
           sh '''
-            /kaniko/executor --context `pwd` --verbosity debug --destination adesijibomi/memorycache:1.0
+            /kaniko/executor --context `pwd` --destination adesijibomi/memorycache:1.0
           '''
         }
       }
@@ -51,3 +56,4 @@ podTemplate(yaml: '''
 
   }
 }
+
