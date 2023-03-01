@@ -9,11 +9,11 @@ podTemplate(yaml: '''
         image: golang:1.20
         command: [ "sleep" ,"99d" ]
 	resources:
+	  limits:
+	    memory: 5Gi
 	  requests:
 	    memory: 3Gi
 	    cpu: "2"
-	  limits:
-	    memory: 5Gi
         imagePullPolicy: Always
       - name: kaniko
         image: gcr.io/kaniko-project/executor:debug
