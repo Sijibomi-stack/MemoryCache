@@ -7,14 +7,13 @@ COPY . /app
 
 WORKDIR /app
 
+RUN apk add git
 
 RUN CGO_ENABLED=0 go build -o cacheApp ./cmd/api
 
 RUN chmod +x /app/cacheApp
 
 FROM alpine:latest 
-
-RUN apk add git
 
 RUN mkdir /app
 
