@@ -39,7 +39,7 @@ podTemplate(yaml: '''
     stage('Build Golang Image') {
       steps {
         container('kaniko') {
-            /kaniko/executor --context `pwd` --destination adesijibomi/memorycache:1.0
+            /kaniko/executor --context $WORKSPACE --destination adesijibomi/memorycache:1.0
         }
       }
     }
