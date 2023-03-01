@@ -16,6 +16,8 @@ podTemplate(yaml: '''
         - sleep
         args:
         - 9999999
+	- "--context=git@github.com:Sijibomi-stack/embarkStudios/"
+	- "--dockerfile=./memorycache-service.dockerfile"
         volumeMounts:
         - name: kaniko-secret
           mountPath: /kaniko/.docker
