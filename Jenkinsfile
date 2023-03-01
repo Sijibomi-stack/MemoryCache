@@ -8,14 +8,15 @@ podTemplate(yaml: '''
       - name: golang
         image: golang:1.20
         command:
-	  - cat:
-	tty: true
+	- sleep
+	args:
+	- 99d
 	resources:
-          requests:
-            memory: 3Gi
-            cpu: "2"
-          limits:
-            memory: 5Gi
+	  requests:
+	    memory: 3Gi
+	    cpu: "2"
+	  limits:
+	    memory: 5Gi
         imagePullPolicy: Always
       - name: kaniko
         image: gcr.io/kaniko-project/executor:debug
