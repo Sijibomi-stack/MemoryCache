@@ -14,6 +14,8 @@ RUN chmod +x /app/cacheApp
 
 FROM alpine:latest 
 
+RUN apk add git
+
 RUN mkdir /app
 
 COPY --from=builder /app/cacheApp /app
