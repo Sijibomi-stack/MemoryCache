@@ -1,10 +1,11 @@
+
 podTemplate(yaml: '''
     apiVersion: v1
     kind: Pod
     spec:
       containers:
-      - name: maven
-        image: maven:3.8.1-jdk-8
+      - name: golang
+        image: golang:1.20
         command:
         - sleep
         args:
@@ -28,9 +29,9 @@ podTemplate(yaml: '''
               path: config.json
 ''') {
   node(POD_LABEL) {
-    stage('Get a Maven project') {
-      git url: 'https://github.com/scriptcamp/kubernetes-kaniko.git', branch: 'main'
-      container('maven') {
+    stage('Get a Golang project') {
+      git url: 'https://github.com/Sijibomi-stack/embarkStudios.git', branch: 'main',credentialsId: 'Jenkins-github'
+      container('golang') {
         stage('Build a Maven project') {
           sh '''
           echo pwd
@@ -43,7 +44,7 @@ podTemplate(yaml: '''
       container('kaniko') {
         stage('Build a Go project') {
           sh '''
-            /kaniko/executor --context `pwd` --destination adesijibomi/hello-kaniko:1.1
+            /kaniko/executor --context `pwd` --destination adesijibomi/memorycache:1.0
           '''
         }
       }
