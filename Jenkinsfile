@@ -41,14 +41,14 @@ pipeline {
   }
   stages {
      stage('Get a Golang project') {
-	   steps {
-		 container('git') {
-           git url: 'https://github.com/Sijibomi-stack/embarkStudios.git', branch: 'main',credentialsId: 'Jenkins-github'
+       steps {
+         container('git') {
+           git url: 'https://github.com/Sijibomi-stack/embarkStudios.git', branch: 'main', credentialsId: 'Jenkins-github'
         }
       }
     }
-     stage('Build Java Image') {
-	   steps {
+     stage('Build Golang Project') {
+       steps {
          container('kaniko') {
            sh "/kaniko/executor --context $WORKSPACE --destination $IMAGE_NAME:$IMAGE_TAG"
         }
