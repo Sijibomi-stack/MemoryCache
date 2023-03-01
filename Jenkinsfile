@@ -8,9 +8,8 @@ podTemplate(yaml: '''
       - name: golang
         image: golang:1.20
         command:
-        - sleep
-        args:
-        - 99d
+	  - cat
+	tty: true
 	resources:
           requests:
             memory: 3Gi
