@@ -7,9 +7,7 @@ podTemplate(yaml: '''
       containers:
       - name: golang
         image: golang:1.20
-        command:
-	  - cat
-	tty: true
+        command: [ "sleep" ,"99d" ]
 	resources:
 	  requests:
 	    memory: 3Gi
