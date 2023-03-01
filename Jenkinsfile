@@ -43,7 +43,7 @@ podTemplate(yaml: '''
       container('kaniko') {
         stage('Build a Go project') {
           sh '''
-            /kaniko/executor --context `pwd` --destination adesijibomi/memorycache:1.0
+            /kaniko/executor --context `pwd` --verbosity debug --destination adesijibomi/memorycache:1.0
           '''
         }
       }
