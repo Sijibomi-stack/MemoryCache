@@ -1,72 +1,55 @@
-pipeline {
-    // install golang 1.14 on Jenkins node
-    agent {
-            kubernetes {
-                     yaml '''
-apiVersion: v1
-kind: Pod
-spec:
-  containers:
-  - name: golang
-    image: golang:1.20
-    command:
-    - cat
-    tty: true
-    resources:
-      requests:
-        memory: 3Gi
-        cpu: "2"
-      limits:
-        memory: 5Gi
-    imagePullPolicy: Always
-  - name: docker
-    image: docker:latest
-    command:
-    - cat
-    tty: true
-    volumeMounts:
-      - mountPath: /var/run/docker.sock
-        name: docker-sock
-  volumes:
-  - name: docker-sock
-    hostPath:
-      path: /var/run/docker.sock
-'''
+
+
+podTemplate(yaml: '''
+    apiVersion: v1
+    kind: Pod
+    spec:
+      containers:
+      - name: golang
+        image: golang:1.20
+        command:
+        - sleep
+        args:
+        - 99d
+      - name: kaniko
+        image: gcr.io/kaniko-project/executor:debug
+        command:
+        - sleep
+        args:
+        - 9999999
+        volumeMounts:
+        - name: kaniko-secret
+          mountPath: /kaniko/.docker
+      restartPolicy: Never
+      volumes:
+      - name: kaniko-secret
+        secret:
+            secretName: dockercred
+            items:
+            - key: .dockerconfigjson
+              path: config.json
+''') {
+  node(POD_LABEL) {
+    stage('Get a Golang project') {
+      git url: 'https://github.com/Sijibomi-stack/embarkStudios.git', branch: 'main',credentialsId: 'Jenkins-github'
+      container('golang') {
+        stage('Build project') {
+          sh '''
+          echo 'BUILD EXECUTION STARTED'
+          '''
         }
+      }
     }
-    stages {
-            stage("Checkout the project") {
-           steps{
-	     container('golang'){
-               git branch: 'main', credentialsId: 'Jenkins-github', url: 'https://github.com/Sijibomi-stack/embarkStudios.git'
-	       sh 'go version'
-	       }
-           }
-        
-	}
-        stage("build") {
-            steps { 
-	      container('docker'){
-                sh 'docker build . -t Sijibomi-stack/embarkStudios'
-		}
-		
-            }
+
+    stage('Build docker Image') {
+      container('kaniko') {
+        stage('Build a Go project') {
+          sh '''
+            /kaniko/executor --context `pwd` --destination adesijibomi/memorycacheapp-kaniko:1.0
+          '''
         }
-        stage('Login') {
-            steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-           }
-       }
-        stage('Push') {
-            steps {
-                sh 'docker push Sijibomi-stack/embarkStudios'
-           }
-       }
+      }
     }
-    post {
-    always {
-      sh 'docker logout'
-    }
+
   }
 }
-
