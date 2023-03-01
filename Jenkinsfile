@@ -8,7 +8,7 @@ podTemplate(yaml: '''
       - name: golang
         image: golang:1.20
         command:
-	  - cat
+	  - cat:
 	tty: true
 	resources:
           requests:
