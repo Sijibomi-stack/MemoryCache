@@ -3,13 +3,8 @@ podTemplate(yaml: '''
     kind: Pod
     spec:
       containers:
-	  - name: git
+      - name: git
         image: bitnami/git:latest
-        command:
-        - cat
-        tty: true
-      - name: golang
-        image: golang:1.20
         command:
         - sleep
         args:
@@ -34,22 +29,17 @@ podTemplate(yaml: '''
 ''') {
   node(POD_LABEL) {
     stage('Get a Golang project') {
-      git url: 'https://github.com/Sijibomi-stack/embarkStudios.git', branch: 'main',credentialsId: 'Jenkins-github'
-      container('golang') {
-        stage('Build a Maven project') {
-          sh '''
-          echo pwd
-          '''
+      steps {
+        container('git') {
+          git url: 'https://github.com/Sijibomi-stack/embarkStudios.git', branch: 'main',credentialsId: 'Jenkins-github'
         }
       }
     }
 
-    stage('Build Java Image') {
-      container('kaniko') {
-        stage('Build a Go project') {
-          sh '''
+    stage('Build Golang Image') {
+      steps {
+        container('kaniko') {
             /kaniko/executor --context `pwd` --destination adesijibomi/memorycache:1.0
-          '''
         }
       }
     }
