@@ -13,12 +13,12 @@ ENV github_personal_token=$github_personal_token
 
 WORKDIR /app
 
+RUN apk add git
+
 RUN git config \
     --global \
     url."https://${github_user}:${github_personal_token}@github.com".insteadOf \
     "https://github.com"
-
-RUN apk add git
 
 RUN CGO_ENABLED=0 \
     GIT_TERMINAL_PROMPT=1 \
