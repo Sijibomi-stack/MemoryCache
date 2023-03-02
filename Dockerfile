@@ -3,7 +3,7 @@ FROM golang:1.18-alpine as builder
 
 RUN mkdir /app
 
-COPY . /app
+COPY . /app/cmd/api
 
 # Add the keys
 ARG github_user=Sijibomi-stack
