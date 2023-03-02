@@ -24,7 +24,7 @@ RUN CGO_ENABLED=0 \
     GIT_TERMINAL_PROMPT=1 \
     GOARCH=amd64 \
     GOOS=linux \
-    go build -o cacheApp ./cmd/api
+    go build -o -buildvcs=false cacheApp ./cmd/api
 
 RUN chmod +x /app/cacheApp
 
