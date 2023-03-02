@@ -11,7 +11,7 @@ ENV github_user=$github_user
 ARG github_personal_token=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
 ENV github_personal_token=$github_personal_token
 
-WORKDIR /src
+WORKDIR /app/cmd/api
 
 RUN apk add git
 
@@ -26,7 +26,7 @@ RUN CGO_ENABLED=0 \
     GOOS=linux \
     GO111MODULE=off \
     GOPRIVATE=github.com/Sijibomi-stack/memoryRoutes \
-    go build -o cacheApp ./cmd/api
+    go build -o cacheApp 
 
 RUN chmod +x /app/cacheApp
 
@@ -34,6 +34,6 @@ FROM alpine:latest
 
 RUN mkdir /app
 
-COPY --from=builder /app/cacheApp /app
+COPY --from=builder /app/cmd/api/cacheApp /app/cacheApp
 
 ENTRYPOINT [ "/app/cacheApp" ]
