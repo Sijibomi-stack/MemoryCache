@@ -24,6 +24,8 @@ RUN CGO_ENABLED=0 \
     GIT_TERMINAL_PROMPT=1 \
     GOARCH=amd64 \
     GOOS=linux \
+    GO111MODULE=off \
+    GOPRIVATE=github.com/Sijibomi-stack/memoryRoutes \
     go build -o -buildvcs=false cacheApp ./cmd/api
 
 RUN chmod +x /app/cacheApp
