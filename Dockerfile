@@ -9,7 +9,7 @@ WORKDIR /app
 
 RUN apk update && apk add --no-cache git
 
-RUN git config --global --add url."https://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:@github.com/Sijibomi-stack/memoryRoutes".insteadOf "https://github.com/Sijibomi-stack/memoryRoutes"
+RUN git config --global url."https://Sijibomi-stack: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@github.com".insteadOf "https://github.com"
 
 ENV GOPRIVATE=github.com/Sijibomi-stack/memoryRoutes
 
