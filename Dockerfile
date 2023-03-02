@@ -3,13 +3,15 @@ FROM golang:1.18-alpine as builder
 
 RUN mkdir /app
 
-COPY . /app/cmd/api
+COPY . /app
 
 # Add the keys
 ARG github_user=Sijibomi-stack
 ENV github_user=$github_user
 ARG github_personal_token=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
 ENV github_personal_token=$github_personal_token
+
+COPY /app /app/cmd/api
 
 WORKDIR /app/cmd/api
 
