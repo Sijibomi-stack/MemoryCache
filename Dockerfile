@@ -11,8 +11,6 @@ ENV github_user=$github_user
 ARG github_personal_token=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
 ENV github_personal_token=$github_personal_token
 
-COPY /app /app/cmd/api
-
 WORKDIR /app/cmd/api
 
 RUN apk add git
