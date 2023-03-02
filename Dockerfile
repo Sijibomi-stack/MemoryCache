@@ -13,13 +13,7 @@ RUN git config --global url."https://Sijibomi-stack:github_pat_11AMPJEGI0pPI7AyU
 
 ENV GOPRIVATE=github.com/Sijibomi-stack/memoryRoutes
 
-COPY go.mod go.sum ./
-
-RUN go mod download
-
-COPY . .
-
-RUN CGO_ENABLED=0 go build -o cacheApp ./cmd/api
+RUN CGO_ENABLED=0 go build -buildvcs=false -o cacheApp ./cmd/api
 
 RUN chmod +x /app/cacheApp
 
