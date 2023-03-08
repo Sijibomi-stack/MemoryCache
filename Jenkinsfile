@@ -1,6 +1,7 @@
 def secrets = [
   [path: 'secrets/jenkins/github', engineVersion: 1, secretValues: [
-    [envVar: 'PRIVATE_TOKEN', vaultKey: 'private-token']]]
+    [envVar: 'PRIVATE_TOKEN', vaultKey: 'private-token'],
+    [envVar: 'github_user', vaultkey: 'github_user']]],
 ]
 def configuration = [vaultUrl: 'http://10.32.0.24:8200',  vaultCredentialId: 'vault-approle', engineVersion: 1]
 
@@ -58,7 +59,8 @@ pipeline {
          withVault([configuration: configuration, vaultSecrets: secrets]) {
            sh '''
 	      set +x
-	      export PRIVATE_TOKEN=$(sh "echo ${env.PRIVATE_TOKEN}")
+	      export private_token=$(sh "echo ${env.PRIVATE_TOKEN}")
+	      export github_user=$(sh "echo ${env.github_user}")
 	      '''
         }
       }
