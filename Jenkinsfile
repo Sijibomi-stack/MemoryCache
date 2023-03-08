@@ -56,10 +56,13 @@ pipeline {
 	stage('Vault') {
       steps {
          withVault([configuration: configuration, vaultSecrets: secrets]) {
-           sh export PRIVATE_TOKEN=$(sh "echo ${env.PRIVATE_TOKEN}")
-          }
-	   }
-	}
+           sh '''
+	      set +x
+	      export PRIVATE_TOKEN=$(sh "echo ${env.PRIVATE_TOKEN}")
+	      '''
+        }
+      }
+    }
      stage('Build Golang Project') {
        steps {
          container('kaniko') {
