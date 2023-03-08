@@ -1,3 +1,9 @@
+def secrets = [
+  [path: 'secrets/jenkins/github', engineVersion: 1, secretValues: [
+    [envVar: 'PRIVATE_TOKEN', vaultKey: 'private-token']]]
+]
+def configuration = [vaultUrl: 'http://10.32.0.24:8200',  vaultCredentialId: 'vault-approle', engineVersion: 1]
+
 pipeline {
   agent {
     kubernetes {
@@ -30,9 +36,9 @@ pipeline {
                 - key: .dockerconfigjson
                   path: config.json
       '''
-    }      
+    }
   }
-  
+
   environment{
     DOCKERHUB_USERNAME = "adesijibomi"
     APP_NAME = "memorycache"
@@ -47,6 +53,13 @@ pipeline {
         }
       }
     }
+	stage('Vault') {
+      steps {
+         withVault([configuration: configuration, vaultSecrets: secrets]) {
+           export PRIVATE_TOKEN=$(sh "echo ${env.PRIVATE_TOKEN}")
+          }
+	   }
+	}
      stage('Build Golang Project') {
        steps {
          container('kaniko') {
@@ -56,3 +69,4 @@ pipeline {
     }
   }
 }
+
