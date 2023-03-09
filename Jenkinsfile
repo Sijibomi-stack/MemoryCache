@@ -56,15 +56,13 @@ pipeline {
        steps {
          container('git') {
            git url: 'https://github.com/Sijibomi-stack/embarkStudios.git', branch: 'main', credentialsId: 'Jenkins-github'
-		   withVault([configuration: configuration, vaultSecrets: secrets]) {
-             export PRIVATE_TOKEN=$(sh "echo ${env.PRIVATE_TOKEN}")
         }
       }
     }
 	stage('Vault') {
       steps {
          withVault([configuration: configuration, vaultSecrets: secrets]) {
-           sh "export PRIVATE_TOKEN=$(sh "echo ${env.PRIVATE_TOKEN}")"
+           export PRIVATE_TOKEN=$(sh "echo ${env.PRIVATE_TOKEN}")
           }
 	   }
 	}
