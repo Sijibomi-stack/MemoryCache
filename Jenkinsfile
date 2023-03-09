@@ -74,6 +74,7 @@ pipeline {
       }
     }
 	stage('Apply Kubernetes files') {
+	   steps{
       withKubeConfig([credentialsId: 'kubernetes-Jenkins', serverUrl: ' https://192.168.56.2:6443']) {
         sh 'kubectl apply -f memorycache.yaml'
     }
