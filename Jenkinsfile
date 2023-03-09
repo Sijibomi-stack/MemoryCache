@@ -1,30 +1,14 @@
-def secrets = [
-    [
-        path: 'path/to/dev', 
-        engineVersion: 2, 
-        secretValues: [
-            [envVar: 'application_name', vaultKey: 'application_name']
-        ]
-    ]
-]
-
-def configuration = [
-    vaultUrl: 'https://my.vault.app',
-    vaultCredentialId: 'admin-cred',
-    engineVersion: 2
-]
 
 def secrets = [
   [  
       path: 'secrets/jenkins/github', 
 	  engineVersion: 1, 
 	  secretValues: [
-           [envVar: 'PRIVATE_TOKEN', vaultKey: 'private-token'],
-	       [envVar: 'github_user' ,vaultKey: 'github_user']
+           [envVar: 'PRIVATE_TOKEN', vaultKey: 'private-token']
       ]
 	]
   ]
-def configuration = [vaultUrl: 'http://10.32.0.24:8200',  vaultCredentialId: 'vault-approle', engineVersion: 1]
+def configuration = [vaultUrl: 'http://10.32.0.2:8200',  vaultCredentialId: 'vault-approle', engineVersion: 1]
 
 pipeline {
   agent {
