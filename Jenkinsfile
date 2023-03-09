@@ -62,7 +62,10 @@ pipeline {
      stage('Vault') {
        steps {
          withVault([configuration: configuration, vaultSecrets: secrets]) {
-           export PRIVATE_TOKEN=$(sh "echo ${env.PRIVATE_TOKEN}")
+           sh '''
+              set +x
+	      export PRIVATE_TOKEN=$(sh "echo ${env.PRIVATE_TOKEN}")
+	      '''
         }
       }
     }
