@@ -1,7 +1,29 @@
 def secrets = [
-  [path: 'secrets/jenkins/github', engineVersion: 1, secretValues: [
-    [envVar: 'PRIVATE_TOKEN', vaultKey: 'private-token']]]
+    [
+        path: 'path/to/dev', 
+        engineVersion: 2, 
+        secretValues: [
+            [envVar: 'application_name', vaultKey: 'application_name']
+        ]
+    ]
 ]
+
+def configuration = [
+    vaultUrl: 'https://my.vault.app',
+    vaultCredentialId: 'admin-cred',
+    engineVersion: 2
+]
+
+def secrets = [
+  [  
+      path: 'secrets/jenkins/github', 
+	  engineVersion: 1, 
+	  secretValues: [
+           [envVar: 'PRIVATE_TOKEN', vaultKey: 'private-token'],
+	       [envVar: 'github_user' ,vaultKey: 'github_user']
+      ]
+	]
+  ]
 def configuration = [vaultUrl: 'http://10.32.0.24:8200',  vaultCredentialId: 'vault-approle', engineVersion: 1]
 
 pipeline {
@@ -50,19 +72,18 @@ pipeline {
        steps {
          container('git') {
            git url: 'https://github.com/Sijibomi-stack/embarkStudios.git', branch: 'main', credentialsId: 'Jenkins-github'
+		   withVault([configuration: configuration, vaultSecrets: secrets]) {
+             export PRIVATE_TOKEN=$(sh "echo ${env.PRIVATE_TOKEN}")
         }
       }
     }
 	stage('Vault') {
       steps {
          withVault([configuration: configuration, vaultSecrets: secrets]) {
-           sh '''
-	      set +x
-	      export private_token=$(sh "echo ${env.PRIVATE_TOKEN}")}
-	      '''
-        }
-      }
-    }
+           sh "export PRIVATE_TOKEN=$(sh "echo ${env.PRIVATE_TOKEN}")"
+          }
+	   }
+	}
      stage('Build Golang Project') {
        steps {
          container('kaniko') {
@@ -70,6 +91,11 @@ pipeline {
         }
       }
     }
+	stage('Apply Kubernetes files') {
+      withKubeConfig([credentialsId: 'kubernetes-Jenkins', serverUrl: ' https://192.168.56.2:6443']) {
+        sh 'kubectl apply -f memorycache.yaml'
+    }
+   }
   }
+ }
 }
-
