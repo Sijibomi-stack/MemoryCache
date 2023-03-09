@@ -59,13 +59,13 @@ pipeline {
         }
       }
     }
-	stage('Vault') {
-      steps {
+     stage('Vault') {
+       steps {
          withVault([configuration: configuration, vaultSecrets: secrets]) {
            export PRIVATE_TOKEN=$(sh "echo ${env.PRIVATE_TOKEN}")
-          }
-	   }
-	}
+        }
+      }
+    }
      stage('Build Golang Project') {
        steps {
          container('kaniko') {
@@ -73,12 +73,12 @@ pipeline {
         }
       }
     }
-	stage('Apply Kubernetes files') {
-	   steps{
-      withKubeConfig([credentialsId: 'kubernetes-Jenkins', serverUrl: ' https://192.168.56.2:6443']) {
-        sh 'kubectl apply -f memorycache.yaml'
+     stage('Apply Kubernetes files') {
+       steps{
+         withKubeConfig([credentialsId: 'kubernetes-Jenkins', serverUrl: ' https://192.168.56.2:6443']) {
+           sh 'kubectl apply -f memorycache.yaml'
+        }
+      }
     }
-   }
   }
- }
 }
