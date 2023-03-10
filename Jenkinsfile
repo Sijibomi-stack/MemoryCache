@@ -78,7 +78,7 @@ pipeline {
     }
      stage('Apply Kubernetes files') {
        steps{
-         withKubeConfig([credentialsId: 'kubernetes-Jenkins', serverUrl: ' https://192.168.56.2:6443']) {
+         withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: 'kubernetes-admin@kubernetes', credentialsId: 'Kubernetes-Jenkins', namespace: '', restrictKubeConfigAccess: false, serverUrl: 'https://192.168.56.2:6443') {
            sh 'kubectl apply -f memorycache.yaml'
         }
       }
