@@ -81,7 +81,8 @@ pipeline {
          withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: 'kubernetes-admin@kubernetes', credentialsId: 'Kubernetes-Jenkins', namespace: '', restrictKubeConfigAccess: false, serverUrl: 'https://192.168.56.2:6443') {
 	   sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.26.0/bin/linux/amd64/kubectl"'  
            sh 'chmod u+x ./kubectl'
-           sh './kubectl create -f memorycache.yaml'
+	   def yaml = readYaml file: "memorycache.yaml"
+           sh './kubectl create -f yaml'
         }
       }
     }
