@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memorycache-deployment
+  namespace: devops-tools
+spec:
+  selector:
+    matchLabels:
+      app: memorychace
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: memorychace
+    spec:
+      containers:
+        - name: memorycahce
+          image: adesijibomi/memorychace
+          imagePullPolicy: IfNotPresent
+          imagePullSecrets:
+            - name: dockersecret
+          ports:
+            - containerPort: 8080
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: memorychace-k8ssvc
+  namespace: devops-tools
+spec:
+  selector:
+    app: memorychace-k8s
+  ports:
+    - protocol: "TCP"
+      port: 8080
+      targetPort: 8080
+          nodeport: 7000
+  type: NodePort
+
