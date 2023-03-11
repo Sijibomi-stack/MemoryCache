@@ -65,8 +65,8 @@ pipeline {
        steps {
          withVault([configuration: configuration, vaultSecrets: secrets]) {
            sh '''
-	      export TOKEN=${env.PRIVATE_TOKEN}
-	      echo $TOKEN
+	      set -x
+	      echo "${env.PRIVATE_TOKEN}"
 	      '''
         }
       }
