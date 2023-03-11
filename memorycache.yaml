@@ -34,8 +34,10 @@ spec:
   selector:
     app: memorychace-k8s
   ports:
-    - protocol: "TCP"
+    - name: memory-container
+      protocol: "TCP"
       port: 8080
-      targetPort: 7000
+      targetPort: 8080
+      nodeport: 7000
   type: NodePort
 
