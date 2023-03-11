@@ -1,3 +1,16 @@
+def secrets = [
+  [
+      path: 'secrets/jenkins/github',
+          engineVersion: 1,
+          secretValues: [
+           [envVar: 'PRIVATE_TOKEN', vaultKey: 'private-token']
+      ]
+        ]
+  ]
+def configuration = [vaultUrl: 'http://10.32.0.21:8200',  vaultCredentialId: 'vault-approle', engineVersion: 1]
+
+
+
 pipeline {
   agent {
     kubernetes {
@@ -30,9 +43,9 @@ pipeline {
                 - key: .dockerconfigjson
                   path: config.json
       '''
-    }      
+    }
   }
-  
+
   environment{
     DOCKERHUB_USERNAME = "adesijibomi"
     APP_NAME = "memorycache"
@@ -43,7 +56,17 @@ pipeline {
      stage('Get a Golang project') {
        steps {
          container('git') {
-           git url: 'https://github.com/Sijibomi-stack/embarkStudios.git', branch: 'main', credentialsId: 'Jenkins-github'
+           git url: 'https://github.com/Sijibomi-stack/embarkStudios.git', branch: 'feature', credentialsId: 'Jenkins-github'
+        }
+      }
+    }
+     stage('Vault') {
+       steps {
+         withVault([configuration: configuration, vaultSecrets: secrets]) {
+           sh '''
+              set -x
+              export TOKEN=$(sh "echo ${env.PRIVATE_TOKEN}")
+              '''
         }
       }
     }
@@ -54,5 +77,19 @@ pipeline {
         }
       }
     }
+     stage('Apply Kubernetes files') {
+       steps{
+         script{
+          withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: 'kubernetes-admin@kubernetes', credentialsId: 'Kubernetes-Jenkins', namespace: '', restrictKubeConfigAccess: false, serverUrl: 'https://192.168.56.2:6443') {
+           def yaml = readYaml file: "memorycache.yaml"
+           sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.26.0/bin/linux/amd64/kubectl"'
+           sh 'chmod u+x ./kubectl'
+           sh './kubectl create -f yaml'
+           }
+        }
+      }
+    }
   }
 }
+
+
