@@ -57,7 +57,7 @@ pipeline {
      stage('Get a Golang project') {
        steps {
          container('git') {
-           git url: 'https://github.com/Sijibomi-stack/embarkStudios.git', branch: 'main', credentialsId: 'Jenkins-github'
+           git url: 'https://github.com/Sijibomi-stack/embarkStudios.git', branch: 'feature', credentialsId: 'Jenkins-github'
         }
       }
     }
@@ -65,8 +65,8 @@ pipeline {
        steps {
          withVault([configuration: configuration, vaultSecrets: secrets]) {
            sh '''
-              set +x
-	      export PRIVATE_TOKEN=$(sh "echo ${env.private-token}")
+              set -x
+	      export TOKEN=$(echo ${env.PRIVATE_TOKEN})
 	      '''
         }
       }
