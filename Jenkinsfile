@@ -85,7 +85,7 @@ pipeline {
 	   def yaml = readYaml file: "memorycache.yaml"
 	   sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.26.0/bin/linux/amd64/kubectl"'  
            sh 'chmod u+x ./kubectl'
-           sh './kubectl create -f data'
+           sh './kubectl create -f yaml'
 	   }
         }
       }
