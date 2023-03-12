@@ -84,7 +84,7 @@ pipeline {
            sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.26.0/bin/linux/amd64/kubectl"'
            sh 'chmod u+x ./kubectl'
 	   configFileProvider([configFile(fileId: '62b36d3c-a2ca-46c4-a92c-e1109283a1cc', variable: 'memorycache')]) {
-           sh './kubectl create -f ${env.memorycache}'
+           sh 'envsubst < ${WORKSPACE}/memorycache.yaml | kubectl apply -f -'
 	   }
           }
         }
