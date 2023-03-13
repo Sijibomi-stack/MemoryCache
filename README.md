@@ -67,3 +67,5 @@ For this project we will be using **Dockerfile** to automate the build and **Jen
 ![Vault Definitions](Vault-Definitions.png)
 - Setting up the custom definitions to be used by the withVault plugin in the vault stage of the CICD pipeline. 
 - Here the Vault_ADDR, approle credentials and key value   store version used are set as environment variables.
+
+![Kubernets Agent](container.png)
