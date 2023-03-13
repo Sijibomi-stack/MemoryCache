@@ -60,24 +60,23 @@ pipeline {
         }
       }
     }
-     stage('Vault') {
+     stage('Test Vault Connection') {
        steps {
          withVault([configuration: configuration, vaultSecrets: secrets]) {
            sh '''
-              set -x
-              export TOKEN=$(sh "echo ${env.PRIVATE_TOKEN}")
+              "echo ${env.PRIVATE_TOKEN}")
               '''
         }
       }
     }
-     stage('Build Golang Project') {
+     stage('Build Memory Cache Project') {
        steps {
          container('kaniko') {
            sh "/kaniko/executor --context $WORKSPACE --destination $IMAGE_NAME:$IMAGE_TAG"
         }
       }
     }
-     stage ('load yaml file') {
+     stage ('load Deployment Yaml File') {
            steps {
              configFileProvider([configFile(fileId: '62b36d3c-a2ca-46c4-a92c-e1109283a1cc', variable: 'memorycache')]) {
               sh "cat ${env.memorycache}" 
