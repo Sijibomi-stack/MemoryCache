@@ -51,3 +51,13 @@ For this project we will be using **Dockerfile** to automate the build and **Jen
 ### Dockerfile
 
 ![Dockerfile](DockerFile-Image.png)
+- From golang alpine (lightweight) as base image.
+- Make an dir /app on the base image we created.
+- Copy all files from the current folder to the /app folder.
+- Set a working dir where we will run all stages.
+- Download git using the apk package manager, this will be needed to download modules for our private modules.
+- Set the git global config to use private token for authenticating the private repo module.
+- Set Go environment variable to our private github repo.
+- Build the app using go from the source dir cmd/api.
+- Make the cacheapp executable by changing the permissions.
+-  Build a smaller docker image from builder.
