@@ -63,5 +63,6 @@ For this project we will be using **Dockerfile** to automate the build and **Jen
 -  Build a smaller docker image from builder.
 
 ### Jenkinsfile
-![Vault-setup](Vault Definitions.png)
+
+![Vault Definitions](Vault Definitions.png)
 - Setting up the custom definitions to be used by the withVault plugin in the vault stage of the CICD pipeline. Here the Vault_ADDR, approle credentials and key value   store version used are set as environment variables.
