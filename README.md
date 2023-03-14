@@ -89,7 +89,7 @@ For this project we will be using **Dockerfile** to automate the build and **Jen
 ![Vault](images/Vault-Test.png)
 
 - I included this stage to test connection and $echo a secret, if this stage fails, connection to vault server needs to be checked.
-- This can be done by exec into the jenkins pod and run curl -H "X-Vault-Token: hvs.xxxxxxxxxxxxx"  http://10.32.0.24:8200/v1/secrets/jenkins/github | jq
+- This can be done by exec into the jenkins pod and run **curl -H "X-Vault-Token: hvs.xxxxxxxxxxxxx"  http://10.32.0.24:8200/v1/secrets/jenkins/github | jq**
 
 ![Build](images/Build.png)
 
