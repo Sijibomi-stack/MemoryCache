@@ -79,3 +79,25 @@ For this project we will be using **Dockerfile** to automate the build and **Jen
 - Docker environment variables to login and push image to docker hub.
 
 ![Git Checkout](Git-checkout.png)
+
+- Git checkout to main branch with the credential id of the private token for the github repo.
+
+![Vault](Vault-Test.png)
+
+- I included this stage to test connection and $echo a secret, if this stage fails, connection to vault server needs to be checked.
+- This can be done by exec into the jenkins pod and run curl -H "X-Vault-Token: hvs.xxxxxxxxxxxxx"  http://10.32.0.24:8200/v1/secrets/jenkins/github | jq
+
+![Build](Build.png)
+
+- This stage builds the project using the dockerfile with the execution steps, afterwards image is pushed to docker hub private repo.
+- This is done using the Kaniko container as shown the kubernetes yaml.
+
+![Load Deployment Yaml](Yaml.png)
+- In this stage Deployment yaml is loaded into the workspace and this is done using the config file provider plugin
+
+![Deploy](Deploy.png)
+- Final continous deploymeny to kubernetes cluster is done here.
+- First I use withkubeconfig plugin to connect to my local k8s cluster.
+- I downloaded the kubectl utility and made it executable.
+- Loaded the deployment yaml files
+- Executed the kubectl creat -f, which will create all resources and services listed in the deployment file.
