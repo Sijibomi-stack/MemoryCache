@@ -40,6 +40,28 @@ The App is built as a golang module/package and is been called in the main.go fi
 | :-------- | :------- | :------------------------- |
 | `api_key` | `/` | **Required**. keys for post |
 
+### Memorycache module
+
+![Module Declaration](images/Declare-package-name.png)
+
+- We declare package name as *memoryRoutes*, this will used as a module call in other functions.
+- I used *fibre* package as my frame, because it's fast and *ttlcache* as to store application data.
+
+![Setup Struct](images/Variables.png)
+
+- I can start by creating our struct which we'll name products, which will contain the following properties as shown above.
+- This will be used to unmarshal our output to json
+
+![Setup Functions](images/Function-checks.png)
+
+- I setup a check method *Checkcache* to check if the key of our API call has been used
+- If it does we will return the data we have stored in the cache as Appcache. 
+- But if the key doesn't exist in the Appcache, we will execute the next method *GetCache* which is a simple Get request to the fake placeholder we used.
+
+![Setup Functions](images/defer-close.png)
+
+
+![Setup Functions](images/post-func.png)
 
 ## Integration & Deployment
 
