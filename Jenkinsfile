@@ -51,7 +51,7 @@ pipeline {
     APP_NAME = "memorycache"
     IMAGE_NAME = "${DOCKERHUB_USERNAME}" + "/" + "${APP_NAME}"
     IMAGE_TAG = "${BUILD_NUMBER}"
-    TOKEN=${env.PRIVATE_TOKEN}
+    TOKEN="${env.PRIVATE_TOKEN}"
   }
   stages {
      stage('Get a Golang project') {
