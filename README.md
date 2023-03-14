@@ -25,7 +25,7 @@ The App is built as a golang module/package and is been called in the main.go fi
 #### Get an item
 
 ```http
-  GET https://fakestoreapi.com/products/${id}
+  GET http://fakestoreapi.com/products/${id}
 ```
 
 | Parameter | Type     | Description                |
@@ -33,8 +33,12 @@ The App is built as a golang module/package and is been called in the main.go fi
 | `api_key` | `int` | **Required**. Id of item to fetch |
 
 ```http
-  POST https://post
+  POST http://post
 ```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `api_key` | `/` | **Required**. keys for post |
 
 
 ## Integration & Deployment
