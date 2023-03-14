@@ -105,3 +105,5 @@ For this project we will be using **Dockerfile** to automate the build and **Jen
 - I downloaded the kubectl utility and made it executable.
 - Loaded the deployment yaml files
 - Executed the kubectl creat -f, which will create all resources and services listed in the deployment file.
+
+## Memorycache.yaml
