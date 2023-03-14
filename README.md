@@ -64,38 +64,38 @@ For this project we will be using **Dockerfile** to automate the build and **Jen
 
 ### Jenkinsfile
 
-![Vault Definitions](Vault-Definitions.png)
+![Vault Definitions](images/Vault-Definitions.png)
 - Setting up the custom definitions to be used by the withVault plugin in the vault stage of the CICD pipeline. 
 - Here the Vault_ADDR, approle credentials and key value   store version used are set as environment variables.
 
-![Kubernets Agent](container.png)
+![Kubernets Agent](images/container.png)
 - Here I used a multi-container yaml template to setup my continous integration, it is made up of two containers for git and kaniko.
 - Kaniko is used because, Docker build containers run in privileged mode. It is a big security concern and it is kind of an open door to malicious attacks.
 - Kubernetes removed Docker from its core. So, mounting docker.sock to host will not work in the future, unless you add a docker to all the Kubernetes Nodes.
 - I have to create a kubernetes secret(dockercred) of type docker-registry for the kaniko pod to authenticate the Docker hub registry and push the image.
 
-![Docker Env](Env.png)
+![Docker Env](images/Env.png)
 
 - Docker environment variables to login and push image to docker hub.
 
-![Git Checkout](Git-checkout.png)
+![Git Checkout](images/Git-checkout.png)
 
 - Git checkout to main branch with the credential id of the private token for the github repo.
 
-![Vault](Vault-Test.png)
+![Vault](images/Vault-Test.png)
 
 - I included this stage to test connection and $echo a secret, if this stage fails, connection to vault server needs to be checked.
 - This can be done by exec into the jenkins pod and run curl -H "X-Vault-Token: hvs.xxxxxxxxxxxxx"  http://10.32.0.24:8200/v1/secrets/jenkins/github | jq
 
-![Build](Build.png)
+![Build](images/Build.png)
 
 - This stage builds the project using the dockerfile with the execution steps, afterwards image is pushed to docker hub private repo.
 - This is done using the Kaniko container as shown the kubernetes yaml.
 
-![Load Deployment Yaml](Yaml.png)
+![Load Deployment Yaml](images/Yaml.png)
 - In this stage Deployment yaml is loaded into the workspace and this is done using the config file provider plugin
 
-![Deploy](Deploy.png)
+![Deploy](images/Deploy.png)
 - Final continous deploymeny to kubernetes cluster is done here.
 - First I use withkubeconfig plugin to connect to my local k8s cluster.
 - I downloaded the kubectl utility and made it executable.
