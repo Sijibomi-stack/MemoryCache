@@ -100,4 +100,4 @@ For this project we will be using **Dockerfile** to automate the build and **Jen
 - First I use withkubeconfig plugin to connect to my local k8s cluster.
 - I downloaded the kubectl utility and made it executable.
 - Loaded the deployment yaml files
-- Executed the kubectl creat -f, which will create all resources and services listed in the deployment files.
+- Executed the kubectl creat -f, which will create all resources and services listed in the deployment file.
