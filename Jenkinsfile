@@ -1,14 +1,13 @@
-
 def secrets = [
-  [  
-      path: 'secrets/jenkins/github', 
-	  engineVersion: 1, 
-	  secretValues: [
+  [
+      path: 'secrets/jenkins/github',
+          engineVersion: 1,
+          secretValues: [
            [envVar: 'PRIVATE_TOKEN', vaultKey: 'private-token']
       ]
-	]
+        ]
   ]
-def configuration = [vaultUrl: 'http://10.32.0.21:8200',  vaultCredentialId: 'vault-approle', engineVersion: 1]
+def configuration = [vaultUrl: 'http://10.32.0.28:8200',  vaultCredentialId: 'vault-approle', engineVersion: 1]
 
 
 
@@ -52,43 +51,52 @@ pipeline {
     APP_NAME = "memorycache"
     IMAGE_NAME = "${DOCKERHUB_USERNAME}" + "/" + "${APP_NAME}"
     IMAGE_TAG = "${BUILD_NUMBER}"
+    TOKEN=${env.PRIVATE_TOKEN}
   }
   stages {
      stage('Get a Golang project') {
        steps {
          container('git') {
-           git url: 'https://github.com/Sijibomi-stack/embarkStudios.git', branch: 'feature', credentialsId: 'Jenkins-github'
+           git url: 'https://github.com/Sijibomi-stack/embarkStudios.git', branch: 'main', credentialsId: 'Jenkins-github'
         }
       }
     }
-     stage('Vault') {
+     stage('Test Vault Connection') {
        steps {
          withVault([configuration: configuration, vaultSecrets: secrets]) {
            sh '''
-	      set -x
-	      export TOKEN=$(sh "echo ${env.PRIVATE_TOKEN}")
-	      '''
+              export 'TOKEN=$(sh "echo ${env.PRIVATE_TOKEN}")'
+              echo "${TOKEN}"
+              '''
         }
       }
     }
-     stage('Build Golang Project') {
+     stage('Build Memory Cache Project') {
        steps {
          container('kaniko') {
            sh "/kaniko/executor --context $WORKSPACE --destination $IMAGE_NAME:$IMAGE_TAG"
         }
       }
     }
-     stage('Apply Kubernetes files') {
-       steps{
-         script{
-          withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: 'kubernetes-admin@kubernetes', credentialsId: 'Kubernetes-Jenkins', namespace: '', restrictKubeConfigAccess: false, serverUrl: 'https://192.168.56.2:6443') {
-	   def yaml = readYaml file: "memorycache.yaml"
-	   sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.26.0/bin/linux/amd64/kubectl"'  
-           sh 'chmod u+x ./kubectl'
-           sh './kubectl create -f yaml'
-	   }
+     stage ('load Deployment Yaml File') {
+           steps {
+             configFileProvider([configFile(fileId: '62b36d3c-a2ca-46c4-a92c-e1109283a1cc', variable: 'memorycache')]) {
+              sh "cat ${env.memorycache}"
+               }
+           }
         }
-      }
-    }
+        stage ('Deploy') {
+           steps {
+               withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: 'kubernetes-admin@kubernetes', credentialsId: 'Jenkins-github', namespace: 'devops-tools', restrictKubeConfigAccess: false, serverUrl: '') {
+                sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.26.0/bin/linux/amd64/kubectl"'
+                sh 'chmod u+x ./kubectl'
+                configFileProvider([configFile(fileId: '62b36d3c-a2ca-46c4-a92c-e1109283a1cc', variable: 'memorycache')]) {
+                sh "./kubectl create -f ${env.memorycache}"
+                }
+                }
+
+            }
+        }
   }
 }
+
