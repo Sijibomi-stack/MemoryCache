@@ -63,6 +63,12 @@ The App is built as a golang module/package and is been called in the main.go fi
 
 ![Setup Functions](images/post-func.png)
 
+### Main Module
+![Main Package](main-package.png)
+
+- With this in place, we can then return to the main.go file and within our setupRoutes function we can map our endpoints to these new functions like so:
+- We have now imported our new memoryRoutes package and mapped the endpoints we wanted to the GetCache, Checkcache and PostInCache functions.
+
 ## Integration & Deployment
 
 The build environment is hosted on kubernetes provisioned by vagrant. This can be setup by running 
