@@ -60,7 +60,7 @@ For this project we will be using **Dockerfile** to automate the build and **Jen
 - Set Go environment variable to our private github repo.
 - Build the app using go from the source dir cmd/api.
 - Make the cacheapp executable by changing the permissions.
--  Build a smaller docker image from builder.
+- Make a smaller docker image from builder.
 
 ### Jenkinsfile
 
@@ -69,3 +69,7 @@ For this project we will be using **Dockerfile** to automate the build and **Jen
 - Here the Vault_ADDR, approle credentials and key value   store version used are set as environment variables.
 
 ![Kubernets Agent](container.png)
+- Here I used a multi-container yaml template to setup my continous integration, it is made up of two containers for git and kaniko.
+- Kaniko is used because, Docker build containers run in privileged mode. It is a big security concern and it is kind of an open door to malicious attacks.
+- Kubernetes removed Docker from its core. So, mounting docker.sock to host will not work in the future, unless you add a docker to all the Kubernetes Nodes.
+- I have to create a kubernetes secret(dockercred) of type docker-registry for the kaniko pod to authenticate the Docker hub registry and push the image.
