@@ -49,7 +49,9 @@ pipeline {
   }
 
   environment{
-    IMAGE_NAME = "${env.USERNAME}" + "/" + "${env.IMAGE_NAME}"
+    DOCKERHUB_USERNAME = "${env.USERNAME}"
+    APP_NAME = "${env.IMAGE_NAME}"
+    IMAGE_NAME = "${DOCKERHUB_USERNAME}" + "/" + "${APP_NAME}"
     IMAGE_TAG = "${BUILD_NUMBER}"
     TOKEN="${env.PRIVATE_TOKEN}"
   }
