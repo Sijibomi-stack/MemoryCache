@@ -9,7 +9,7 @@ WORKDIR /app
 
 RUN apk update && apk add --no-cache git
 
-RUN git config --global url."https://${GIT_USERNAME}:${GIT_TOKEN}@github.com".insteadOf "https://github.com"
+RUN git config --global url."https://Sijibomi-stack:${GIT_TOKEN}@github.com".insteadOf "https://github.com"
 
 ENV GOPRIVATE=github.com/Sijibomi-stack/memoryRoutes
 
