@@ -3,11 +3,13 @@ def secrets = [
       path: 'secrets/jenkins/github',
           engineVersion: 1,
           secretValues: [
-           [envVar: 'PRIVATE_TOKEN', vaultKey: 'private-token']
+           [envVar: 'PRIVATE_TOKEN', vaultKey: 'private-token'],
+	   [envVar: 'USERNAME', vaultKey: 'username'],
+           [envVar: 'IMAGE_NAME', vaultKey: 'imagename']
       ]
         ]
   ]
-def configuration = [vaultUrl: 'http://10.32.0.28:8200',  vaultCredentialId: 'vault-approle', engineVersion: 1]
+def configuration = [vaultUrl: 'http://10.32.0.27:8200',  vaultCredentialId: 'vault-approle', engineVersion: 1]
 
 
 
@@ -47,9 +49,7 @@ pipeline {
   }
 
   environment{
-    DOCKERHUB_USERNAME = "adesijibomi"
-    APP_NAME = "memorycache"
-    IMAGE_NAME = "${DOCKERHUB_USERNAME}" + "/" + "${APP_NAME}"
+    IMAGE_NAME = "${env.USERNAME}" + "/" + "${env.IMAGE_NAME}"
     IMAGE_TAG = "${BUILD_NUMBER}"
     TOKEN="${env.PRIVATE_TOKEN}"
   }
@@ -57,7 +57,7 @@ pipeline {
      stage('Get a Golang project') {
        steps {
          container('git') {
-           git url: 'https://github.com/Sijibomi-stack/embarkStudios.git', branch: 'feature', credentialsId: 'Jenkins-github'
+           git url: 'https://github.com/Sijibomi-stack/embarkStudios.git', branch: 'main', credentialsId: 'Jenkins-github'
         }
       }
     }
