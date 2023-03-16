@@ -31,16 +31,16 @@ pipeline {
             tty: true
           - name: kaniko
 	    env:
-	      - name: GIT_USERNAME
+	    - name: GIT_USERNAME
 	        valueFrom:
 		  secretKeyRef:
 		    name: git
 		    key: username
-              - name: GIT_TOKEN
+            - name: GIT_TOKEN
 	        valueFrom:
 	          secretKeyRef:
-		     name: git
-		     key: password
+		    name: git
+		    key: password
             image: gcr.io/kaniko-project/executor:debug
             command:
             - cat
