@@ -1,10 +1,6 @@
 # base go image
 FROM golang:1.18-alpine as builder
 
-ARG github_personal_token
-ENV github_personal_token=${TOKEN}
-
-
 RUN mkdir /app
 
 COPY . /app
