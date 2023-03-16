@@ -20,6 +20,7 @@ pipeline {
         apiVersion: v1
         kind: Pod
         metadata:
+	  namespace: devops-tools
           labels:
             app: memorycache
         spec:
@@ -30,6 +31,17 @@ pipeline {
             - cat
             tty: true
           - name: kaniko
+	    env:
+	      - name: GIT_USERNAME
+	        valueFrom:
+		  secretKeyRef:
+		    name: git
+		    key: username
+              - name: GIT_TOKEN
+	        valueFrom:
+	          secretKeyRef:
+		     name: git
+		     key: password
             image: gcr.io/kaniko-project/executor:debug
             command:
             - cat
@@ -76,7 +88,7 @@ pipeline {
      stage('Build Memory Cache Project') {
        steps {
          container('kaniko') {
-           sh "/kaniko/executor --context $WORKSPACE --destination $IMAGE_NAME:$IMAGE_TAG --build-arg github_personal_token=${env.PRIVATE_TOKEN}"
+           sh "/kaniko/executor --context $WORKSPACE --destination $IMAGE_NAME:$IMAGE_TAG --build-arg GIT_USERNAME=${GIT_USERNAME} --build-arg GIT_TOKEN=${GIT_TOKEN}"
         }
       }
     }
