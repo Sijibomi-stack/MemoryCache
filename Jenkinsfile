@@ -9,7 +9,7 @@ def secrets = [
       ]
         ]
   ]
-def configuration = [vaultUrl: 'http://10.32.0.27:8200',  vaultCredentialId: 'vault-approle', engineVersion: 1]
+def configuration = [vaultUrl: 'http://10.32.0.1:8200',  vaultCredentialId: 'vault-approle', engineVersion: 1]
 
 
 
@@ -76,7 +76,7 @@ pipeline {
      stage('Build Memory Cache Project') {
        steps {
          container('kaniko') {
-           sh "/kaniko/executor --context $WORKSPACE --destination $IMAGE_NAME:$IMAGE_TAG"
+           sh "/kaniko/executor --context $WORKSPACE --destination $IMAGE_NAME:$IMAGE_TAG --build-arg github_personal_token=${env.PRIVATE_TOKEN}"
         }
       }
     }
