@@ -49,8 +49,8 @@ pipeline {
   }
 
   environment{
-    DOCKERHUB_USERNAME = "${env.USERNAME}"
-    APP_NAME = "${env.IMAGE_NAME}"
+    DOCKERHUB_USERNAME = "adesijibomi"
+    APP_NAME = "memorycache"
     IMAGE_NAME = "${DOCKERHUB_USERNAME}" + "/" + "${APP_NAME}"
     IMAGE_TAG = "${BUILD_NUMBER}"
     TOKEN="${env.PRIVATE_TOKEN}"
@@ -59,7 +59,7 @@ pipeline {
      stage('Get a Golang project') {
        steps {
          container('git') {
-           git url: 'https://github.com/Sijibomi-stack/embarkStudios.git', branch: 'main', credentialsId: 'Jenkins-github'
+           git url: 'https://github.com/Sijibomi-stack/embarkStudios.git', branch: 'feature', credentialsId: 'Jenkins-github'
         }
       }
     }
