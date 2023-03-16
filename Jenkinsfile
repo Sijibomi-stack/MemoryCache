@@ -87,7 +87,9 @@ pipeline {
      stage('Build Memory Cache Project') {
        steps {
          container('kaniko') {
-           sh "/kaniko/executor --context $WORKSPACE --destination $IMAGE_NAME:$IMAGE_TAG --build-arg GIT_USERNAME=${GIT_USERNAME} --build-arg GIT_TOKEN=${GIT_TOKEN}"
+           sh '''
+	      /kaniko/executor --context $WORKSPACE --destination $IMAGE_NAME:$IMAGE_TAG --build-arg 'GIT_USERNAME="${GIT_USERNAME}"' --build-arg 'GIT_TOKEN="${GIT_TOKEN}"'
+	      '''
         }
       }
     }
