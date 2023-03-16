@@ -31,7 +31,7 @@ pipeline {
             tty: true
           - name: kaniko
             image: gcr.io/kaniko-project/executor:debug
-              env:
+            - env:
               - name: GIT_USERNAME
                 valueFrom:
                   secretKeyRef:
