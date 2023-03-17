@@ -1,5 +1,3 @@
-
-
 def secrets = [
   [
       path: 'secrets/jenkins/github',
@@ -72,8 +70,9 @@ pipeline {
      stage('Build Memory Cache Project') {
        steps {
          container('kaniko') {
-            sh "/kaniko/executor --context $WORKSPACE --destination ${USERNAME} --label 'image'='latest' --build-arg 'GIT_TOKEN'=${PRIVATE_TOKEN}" 
-	     
+		    wrap([$class: 'VaultBuildWrapper', configuration: [engineVersion: 1, vaultCredentialId: 'vault-approle', vaultUrl: 'http://10.32.0.1:8200'], vaultSecrets: [[path: 'secrets/jenkins/github', secretValues: [[envVar: 'PRIVATE_TOKEN', vaultKey: 'private-token'], [envVar: 'USERNAME', vaultKey: 'username'], [envVar: 'IMAGE_NAME', vaultKey: 'imagename']]]]]) {
+            sh "/kaniko/executor --context $WORKSPACE --destination ${USERNAME} --label 'image'='latest' --build-arg 'GIT_TOKEN'=${PRIVATE_TOKEN}"
+           }
         }
       }
     }
