@@ -77,8 +77,7 @@ pipeline {
        steps {
          withVault([configuration: configuration, vaultSecrets: secrets]) {
            sh '''
-              export 'TOKEN=$(sh "echo ${env.PRIVATE_TOKEN}")'
-              echo "${TOKEN}"
+              "echo ${env.PRIVATE_TOKEN}"
               '''
         }
       }
@@ -88,7 +87,7 @@ pipeline {
          container('kaniko') {
 	   withVault([configuration: configuration, vaultSecrets: secrets]) {
             sh '''
-	      /kaniko/executor --context $WORKSPACE --destination "${env.USERNAME}" + "/" + "${env.IMAGE_NAME}" --build-arg 'GIT_TOKEN="${env.PRIVATE_TOKEN}"'
+	      /kaniko/executor --context $WORKSPACE --destination "${env.USERNAME}" --build-arg 'GIT_TOKEN="${env.PRIVATE_TOKEN}"'
 	      '''
 	      }
         }
