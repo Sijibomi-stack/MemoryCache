@@ -60,9 +60,9 @@ pipeline {
   }
 
   environment{
-    DOCKERHUB_USERNAME = "adesijibomi"
-    APP_NAME = "memorycache"
-    IMAGE_NAME = "${DOCKERHUB_USERNAME}" + "/" + "${APP_NAME}"
+    PRIVATE_TOKEN = vault path: 'secrets/jenkins/github', key: 'private-token', vaultUrl: 'http://10.32.0.1:8200', credentialsId: 'vault-approle', engineVersion: "1"
+    USERNAME = vault path: 'secrets/jenkins/github', key: 'username', vaultUrl: 'http://10.32.0.1:8200', credentialsId: 'vault-approle', engineVersion: "1"
+    IMAGE_NAME = vault path: 'secrets/jenkins/github', key: 'imagename', vaultUrl: 'http://10.32.0.1:8200', credentialsId: 'vault-approle', engineVersion: "1"
     IMAGE_TAG = "${BUILD_NUMBER}"
   }
   stages {
@@ -83,11 +83,8 @@ pipeline {
      stage('Build Memory Cache Project') {
        steps {
          container('kaniko') {
-	   withVault([configuration: configuration, vaultSecrets: secrets]) {
-            sh '''
-	      "/kaniko/executor --destination $env.USERNAME" 
-	      '''
-	      }
+            sh "/kaniko/executor --context $WORKSPACE --destination ${USERNAME}:${IMAGE_TAG}" 
+	     
         }
       }
     }
