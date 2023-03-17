@@ -91,6 +91,7 @@ pipeline {
             sh '''
 	      /kaniko/executor --context $WORKSPACE --destination $IMAGE_NAME:$IMAGE_TAG --build-arg 'GIT_TOKEN="${env.PRIVATE_TOKEN}"'
 	      '''
+	      }
         }
       }
     }
