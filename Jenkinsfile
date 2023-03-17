@@ -7,7 +7,7 @@ def secrets = [
 	   [envVar: 'USERNAME', vaultKey: 'username'],
            [envVar: 'IMAGE_NAME', vaultKey: 'imagename']
       ]
-        ]
+        ],
   ]
 def configuration = [vaultUrl: 'http://10.32.0.1:8200',  vaultCredentialId: 'vault-approle', engineVersion: 1]
 
@@ -64,7 +64,6 @@ pipeline {
     APP_NAME = "memorycache"
     IMAGE_NAME = "${DOCKERHUB_USERNAME}" + "/" + "${APP_NAME}"
     IMAGE_TAG = "${BUILD_NUMBER}"
-    TOKEN="${env.PRIVATE_TOKEN}"
   }
   stages {
      stage('Get a Golang project') {
@@ -86,10 +85,10 @@ pipeline {
     }
      stage('Build Memory Cache Project') {
        steps {
-         container('kaniko') {
+         container('kaniko') {i
 	   withVault([configuration: configuration, vaultSecrets: secrets]) {
             sh '''
-	      /kaniko/executor --context $WORKSPACE --destination $IMAGE_NAME:$IMAGE_TAG --build-arg 'GIT_TOKEN="${env.PRIVATE_TOKEN}"'
+	      /kaniko/executor --context $WORKSPACE --destination "${env.USERNAME}" + "/" + "${env.IMAGE_NAME}" --build-arg 'GIT_TOKEN="${env.PRIVATE_TOKEN}"'
 	      '''
 	      }
         }
