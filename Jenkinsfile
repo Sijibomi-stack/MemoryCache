@@ -5,7 +5,7 @@ def secrets = [
           secretValues: [
            [envVar: 'PRIVATE_TOKEN', vaultKey: 'private-token'],
            [envVar: 'USERNAME', vaultKey: 'username'],
-           [envVar: 'IMAGE_NAME', vaultKey: 'imagename']
+           [envVar: 'REPO_NAME', vaultKey: 'github-username']
       ]
         ],
   ]
@@ -49,8 +49,7 @@ pipeline {
   environment{
     PRIVATE_TOKEN = vault path: 'secrets/jenkins/github', key: 'private-token', vaultUrl: 'http://10.32.0.1:8200', credentialsId: 'vault-approle', engineVersion: "1"
     USERNAME = vault path: 'secrets/jenkins/github', key: 'username', vaultUrl: 'http://10.32.0.1:8200', credentialsId: 'vault-approle', engineVersion: "1"
-    IMAGE_NAME = vault path: 'secrets/jenkins/github', key: 'imagename', vaultUrl: 'http://10.32.0.1:8200', credentialsId: 'vault-approle', engineVersion: "1"
-    IMAGE_TAG = "${BUILD_NUMBER}"
+    REPO_NAME = vault path: 'secrets/jenkins/github', key: 'github-username', vaultUrl: 'http://10.32.0.1:8200', credentialsId: 'vault-approle', engineVersion: "1"
   }
   stages {
      stage('Get a Golang project') {
@@ -70,8 +69,8 @@ pipeline {
      stage('Build Memory Cache Project') {
        steps {
          container('kaniko') {
-		    wrap([$class: 'VaultBuildWrapper', configuration: [engineVersion: 1, vaultCredentialId: 'vault-approle', vaultUrl: 'http://10.32.0.1:8200'], vaultSecrets: [[path: 'secrets/jenkins/github', secretValues: [[envVar: 'PRIVATE_TOKEN', vaultKey: 'private-token'], [envVar: 'USERNAME', vaultKey: 'username'], [envVar: 'IMAGE_NAME', vaultKey: 'imagename']]]]]) {
-            sh "/kaniko/executor --context $WORKSPACE --destination ${USERNAME} --label 'image'='latest' --build-arg 'GIT_TOKEN'=${PRIVATE_TOKEN}"
+		    wrap([$class: 'VaultBuildWrapper', configuration: [engineVersion: 1, vaultCredentialId: 'vault-approle', vaultUrl: 'http://10.32.0.1:8200'], vaultSecrets: [[path: 'secrets/jenkins/github', secretValues: [[envVar: 'PRIVATE_TOKEN', vaultKey: 'private-token'], [envVar: 'USERNAME', vaultKey: 'username'], [envVar: 'REPO_NAME', vaultKey: 'github-username']]]]]) {
+            sh "/kaniko/executor --context $WORKSPACE --destination ${USERNAME} --label 'image'='latest' --build-arg 'GIT_TOKEN'=${PRIVATE_TOKEN} --build-arg 'GIT_USERNAME'=${REPO_NAME}"
            }
         }
       }

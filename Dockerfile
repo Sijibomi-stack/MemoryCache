@@ -3,6 +3,8 @@ FROM golang:1.18-alpine as builder
 
 ARG GIT_TOKEN
 ENV GIT_TOKEN=${GIT_TOKEN}
+ARG GIT_USERNAME
+ENV GIT_USERNAME=${GIT_USERNAME}
 
 RUN mkdir /app
 
@@ -12,7 +14,7 @@ WORKDIR /app
 
 RUN apk update && apk add --no-cache git
 
-RUN git config --global url."https://Sijibomi-stack:${GIT_TOKEN}@github.com".insteadOf "https://github.com"
+RUN git config --global url."https://${GIT_USERNAME}:${GIT_TOKEN}@github.com".insteadOf "https://github.com"
 
 ENV GOPRIVATE=github.com/Sijibomi-stack/memoryRoutes
 
