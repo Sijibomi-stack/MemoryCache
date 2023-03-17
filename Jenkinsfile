@@ -76,9 +76,7 @@ pipeline {
      stage('Test Vault Connection') {
        steps {
          withVault([configuration: configuration, vaultSecrets: secrets]) {
-           sh '''
-              "echo ${env.PRIVATE_TOKEN}"
-              '''
+           sh "export siji=${env.PRIVATE_TOKEN}"
         }
       }
     }
