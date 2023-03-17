@@ -1,8 +1,6 @@
 # base go image
 FROM golang:1.18-alpine as builder
 
-ARG GIT_TOKEN
-
 RUN mkdir /app
 
 COPY . /app
