@@ -85,7 +85,7 @@ pipeline {
          container('kaniko') {
 	   withVault([configuration: configuration, vaultSecrets: secrets]) {
             sh '''
-	      "/kaniko/executor --destination ${env.USERNAME}" 
+	      "/kaniko/executor --destination $env.USERNAME" 
 	      '''
 	      }
         }
