@@ -1,4 +1,18 @@
 
+
+def secrets = [
+  [
+      path: 'secrets/jenkins/github',
+          engineVersion: 1,
+          secretValues: [
+           [envVar: 'PRIVATE_TOKEN', vaultKey: 'private-token'],
+           [envVar: 'USERNAME', vaultKey: 'username'],
+           [envVar: 'IMAGE_NAME', vaultKey: 'imagename']
+      ]
+        ],
+  ]
+def configuration = [vaultUrl: 'http://10.32.0.1:8200',  vaultCredentialId: 'vault-approle', engineVersion: 1]
+
 pipeline {
   agent {
     kubernetes {
