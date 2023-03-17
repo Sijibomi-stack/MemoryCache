@@ -30,18 +30,7 @@ pipeline {
             - cat
             tty: true
           - name: kaniko
-            image: "gcr.io/kaniko-project/executor:debug"
-            env:
-                - name: GIT_USERNAME
-                  valueFrom:
-                    secretKeyRef:
-                      name: git
-                      key: username
-                - name: GIT_TOKEN
-                  valueFrom:
-                    secretKeyRef:
-                      name: git
-                      key: password
+            image: gcr.io/kaniko-project/executor:debug
             command:
             - cat
             tty: true
@@ -76,14 +65,14 @@ pipeline {
      stage('Test Vault Connection') {
        steps {
          withVault([configuration: configuration, vaultSecrets: secrets]) {
-           sh "export siji=${env.PRIVATE_TOKEN}"
+           sh "echo ${env.PRIVATE_TOKEN}"
         }
       }
     }
      stage('Build Memory Cache Project') {
        steps {
          container('kaniko') {
-            sh "/kaniko/executor --context $WORKSPACE --destination ${USERNAME}:${IMAGE_TAG}" 
+            sh "/kaniko/executor --context $WORKSPACE --destination ${USERNAME}:${IMAGE_TAG} --build-arg 'GIT_TOKEN'=${PRIVATE_TOKEN}" 
 	     
         }
       }
