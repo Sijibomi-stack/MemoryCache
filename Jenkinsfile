@@ -47,9 +47,9 @@ pipeline {
   }
 
   environment{
-    PRIVATE_TOKEN = vault path: 'secrets/jenkins/github', key: 'private-token', vaultUrl: 'http://10.32.0.1:8200', credentialsId: 'vault-approle', engineVersion: "1"
-    USERNAME = vault path: 'secrets/jenkins/github', key: 'username', vaultUrl: 'http://10.32.0.1:8200', credentialsId: 'vault-approle', engineVersion: "1"
-    REPO_NAME = vault path: 'secrets/jenkins/github', key: 'github-username', vaultUrl: 'http://10.32.0.1:8200', credentialsId: 'vault-approle', engineVersion: "1"
+    PRIVATE_TOKEN = vault path: 'secrets/jenkins/github', key: 'private-token', vaultUrl: 'http://10.32.0.18:8200', credentialsId: 'vault-approle', engineVersion: "1"
+    USERNAME = vault path: 'secrets/jenkins/github', key: 'username', vaultUrl: 'http://10.32.0.18:8200', credentialsId: 'vault-approle', engineVersion: "1"
+    REPO_NAME = vault path: 'secrets/jenkins/github', key: 'github-username', vaultUrl: 'http://10.32.0.18:8200', credentialsId: 'vault-approle', engineVersion: "1"
   }
   stages {
      stage('Get a Golang project') {
