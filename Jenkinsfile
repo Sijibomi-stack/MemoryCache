@@ -9,7 +9,7 @@ def secrets = [
       ]
         ],
   ]
-def configuration = [vaultUrl: 'http://10.32.0.1:8200',  vaultCredentialId: 'vault-approle', engineVersion: 1]
+def configuration = [vaultUrl: 'http://10.32.0.18:8200',  vaultCredentialId: 'vault-approle', engineVersion: 1]
 
 pipeline {
   agent {
