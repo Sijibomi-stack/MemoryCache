@@ -69,7 +69,7 @@ pipeline {
      stage('Build Memory Cache Project') {
        steps {
          container('kaniko') {
-		    wrap([$class: 'VaultBuildWrapper', configuration: [engineVersion: 1, vaultCredentialId: 'vault-approle', vaultUrl: 'http://10.32.0.1:8200'], vaultSecrets: [[path: 'secrets/jenkins/github', secretValues: [[envVar: 'PRIVATE_TOKEN', vaultKey: 'private-token'], [envVar: 'USERNAME', vaultKey: 'username'], [envVar: 'REPO_NAME', vaultKey: 'github-username']]]]]) {
+		    wrap([$class: 'VaultBuildWrapper', configuration: [engineVersion: 1, vaultCredentialId: 'vault-approle', vaultUrl: 'http://10.32.0.18:8200'], vaultSecrets: [[path: 'secrets/jenkins/github', secretValues: [[envVar: 'PRIVATE_TOKEN', vaultKey: 'private-token'], [envVar: 'USERNAME', vaultKey: 'username'], [envVar: 'REPO_NAME', vaultKey: 'github-username']]]]]) {
             sh "/kaniko/executor --context $WORKSPACE --destination ${USERNAME} --label 'image'='latest' --build-arg 'GIT_TOKEN'=${PRIVATE_TOKEN} --build-arg 'GIT_USERNAME'=${REPO_NAME}"
            }
         }
