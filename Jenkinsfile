@@ -88,6 +88,10 @@ pipeline {
                 sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.26.0/bin/linux/amd64/kubectl"'
                 sh 'chmod u+x ./kubectl'
                 configFileProvider([configFile(fileId: '62b36d3c-a2ca-46c4-a92c-e1109283a1cc', variable: 'memorycache'),configFile(fileId: '7bc39ed3-b52d-4cd4-8eac-489ce2bacdb2', variable: 'jmeter')]) {
+		sh "./kubectl delete -n devops-tools deployments.apps memorycache"
+                sh "./kubectl delete svc -n devops-tools memorychace-k8ssvc"
+                sh "./kubectl delete -n devops-tools  deployments.apps jmeter-master"
+                sh "./kubectl delete -n devops-tools svc jmeter-k8ssvc"
                 sh "./kubectl create -f ${env.memorycache}"
 		sh "./kubectl create -f ${env.jmeter}"
                 }
