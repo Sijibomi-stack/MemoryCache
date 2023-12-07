@@ -82,7 +82,7 @@ For this project we will be using **Dockerfile** to automate the build and **Jen
 
 ### Dockerfile
 
-![Dockerfile](images/DockerFile-Image.png)
+![Dockerfile](images/Dockerfile.png)
 - From golang alpine (lightweight) as base image.
 - Make an dir /app on the base image we created.
 - Copy all files from the current folder to the /app folder.
