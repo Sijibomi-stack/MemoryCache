@@ -106,7 +106,7 @@ For this project we will be using **Dockerfile** to automate the build and **Jen
 - Kubernetes removed Docker from its core. So, mounting docker.sock to host will not work in the future, unless you add a docker to all the Kubernetes Nodes.
 - I have to create a kubernetes secret(dockercred) of type docker-registry for the kaniko pod to authenticate the Docker hub registry and push the image.
 
-![Docker Env](Jenkins-Variables.png)
+![Docker Env](jenkins-Variables.png)
 
 - Docker environment variables to login and push image to docker hub.
 
